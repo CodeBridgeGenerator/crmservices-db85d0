@@ -86,31 +86,31 @@ const AppSideBar = (props) => {
               menuKey="dashboard"
               to="/cbAdmin/dashboard"
               menus={[
-{
+                {
                   icon: <Home />,
                   label: "Accounts",
                   menuKey: "accounts",
                   to: "/app/accounts",
                 },
-{
+                {
                   icon: <Home />,
                   label: "Contacts",
                   menuKey: "contacts",
                   to: "/app/contacts",
                 },
-{
+                {
                   icon: <Home />,
                   label: "Opportunities",
                   menuKey: "opportunities",
                   to: "/app/opportunities",
                 },
-{
+                {
                   icon: <Home />,
                   label: "Negotiations",
                   menuKey: "negotiations",
                   to: "/app/negotiations",
                 },
-{
+                {
                   icon: <Home />,
                   label: "Contracts",
                   menuKey: "contracts",

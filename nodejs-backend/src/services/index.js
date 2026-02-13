@@ -12,5 +12,5 @@ module.exports = function (app) {
   app.configure(opportunities);
   app.configure(negotiations);
   app.configure(contracts);
-    // ~cb-add-configure-service-name~
+  // ~cb-add-configure-service-name~
 };

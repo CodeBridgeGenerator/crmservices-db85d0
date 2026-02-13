@@ -8,7 +8,7 @@ const JobQuesPage = (props) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
-    const filename = "jobQues";
+  const filename = "jobQues";
 
   useEffect(() => {
     //on mount
@@ -55,9 +55,13 @@ const JobQuesPage = (props) => {
       </div>
       <div className="grid align-items-center">
         <div className="col-12" role="jobQues-datatable">
-          <JobQuesDatatable items={data} loading={loading}            filename={filename}
+          <JobQuesDatatable
+            items={data}
+            loading={loading}
+            filename={filename}
             hasServiceFieldsPermission={props.hasServiceFieldsPermission}
-            hasServicePermission={props.hasServicePermission} />
+            hasServicePermission={props.hasServicePermission}
+          />
         </div>
       </div>
     </div>
@@ -70,7 +74,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => ({
   alert: (data) => dispatch.toast.alert(data),
   getSchema: (serviceName) => dispatch.db.getSchema(serviceName),
-    hasServicePermission: (service) =>
+  hasServicePermission: (service) =>
     dispatch.perms.hasServicePermission(service),
   hasServiceFieldsPermission: (service) =>
     dispatch.perms.hasServiceFieldsPermission(service),

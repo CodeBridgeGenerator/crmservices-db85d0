@@ -20,13 +20,7 @@
   "stack": [
     {
       "appName": "nodejs-backend",
-      "environments": [
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
+      "environments": [null, null, null, null, null],
       "pathToLogo": {
         "s": "/assets/applications_logos/nodejs-s.png",
         "l": "/assets/applications_logos/nodejs.png"
@@ -38,13 +32,7 @@
     },
     {
       "appName": "react-frontend",
-      "environments": [
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
+      "environments": [null, null, null, null, null],
       "pathToLogo": {
         "s": "/assets/applications_logos/react-s.png",
         "l": "/assets/applications_logos/react.png"
@@ -535,9 +523,7 @@
             "refServiceName": "accounts",
             "refDatabaseName": "accounts",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "name"
-            ]
+            "identifierFieldName": ["name"]
           }
         },
         {
@@ -958,9 +944,7 @@
             "refServiceName": "accounts",
             "refDatabaseName": "accounts",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "name"
-            ]
+            "identifierFieldName": ["name"]
           }
         },
         {
@@ -1013,10 +997,7 @@
             "refServiceName": "contacts",
             "refDatabaseName": "contacts",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "firstName",
-              "lastName"
-            ]
+            "identifierFieldName": ["firstName", "lastName"]
           }
         },
         {
@@ -1488,9 +1469,7 @@
             "refServiceName": "opportunities",
             "refDatabaseName": "opportunities",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "name"
-            ]
+            "identifierFieldName": ["name"]
           }
         },
         {
@@ -1811,9 +1790,7 @@
             "refServiceName": "opportunities",
             "refDatabaseName": "opportunities",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "name"
-            ]
+            "identifierFieldName": ["name"]
           }
         },
         {
@@ -1866,9 +1843,7 @@
             "refServiceName": "accounts",
             "refDatabaseName": "accounts",
             "relationshipType": "one-to-one",
-            "identifierFieldName": [
-              "name"
-            ]
+            "identifierFieldName": ["name"]
           }
         },
         {

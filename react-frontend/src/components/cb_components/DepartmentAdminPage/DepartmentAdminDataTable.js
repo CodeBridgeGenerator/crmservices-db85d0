@@ -44,7 +44,7 @@ const DepartmentAdminDataTable = ({
   selectedDelete,
   setSelectedDelete,
   onCreateResult,
-    filename,
+  filename,
   hasServiceFieldsPermission,
   hasServicePermission,
 }) => {

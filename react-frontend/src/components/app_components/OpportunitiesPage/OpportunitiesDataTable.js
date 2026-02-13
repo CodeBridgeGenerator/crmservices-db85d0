@@ -1,12 +1,12 @@
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
-import React, { useState, useRef, useEffect} from 'react';
-import _ from 'lodash';
-import { Button } from 'primereact/button';
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import React, { useState, useRef, useEffect } from "react";
+import _ from "lodash";
+import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import UploadService from "../../../services/UploadService";
-import { InputText } from 'primereact/inputtext';
+import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
 import { MultiSelect } from "primereact/multiselect";
 import DownloadCSV from "../../../utils/DownloadCSV";
@@ -18,32 +18,76 @@ import DuplicateIcon from "../../../assets/media/Duplicate.png";
 import DeleteIcon from "../../../assets/media/Trash.png";
 import { Checkbox } from "primereact/checkbox";
 
-const OpportunitiesDataTable = ({ items, fields, onEditRow, onRowDelete, onRowClick, searchDialog, setSearchDialog,   showUpload, setShowUpload,
-    showFilter, setShowFilter,
-    showColumns, setShowColumns, onClickSaveFilteredfields ,
-    selectedFilterFields, setSelectedFilterFields,
-    selectedHideFields, setSelectedHideFields, onClickSaveHiddenfields, loading, user,   selectedDelete,
-  setSelectedDelete, onCreateResult}) => {
-    const dt = useRef(null);
-    const urlParams = useParams();
-    const [globalFilter, setGlobalFilter] = useState('');
+const OpportunitiesDataTable = ({
+  items,
+  fields,
+  onEditRow,
+  onRowDelete,
+  onRowClick,
+  searchDialog,
+  setSearchDialog,
+  showUpload,
+  setShowUpload,
+  showFilter,
+  setShowFilter,
+  showColumns,
+  setShowColumns,
+  onClickSaveFilteredfields,
+  selectedFilterFields,
+  setSelectedFilterFields,
+  selectedHideFields,
+  setSelectedHideFields,
+  onClickSaveHiddenfields,
+  loading,
+  user,
+  selectedDelete,
+  setSelectedDelete,
+  onCreateResult,
+}) => {
+  const dt = useRef(null);
+  const urlParams = useParams();
+  const [globalFilter, setGlobalFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [data, setData] = useState([]);
 
-const dropdownTemplate0 = (rowData, { rowIndex }) => <p >{rowData.accountId?.name}</p>
-const dropdownTemplate1 = (rowData, { rowIndex }) => <p >{rowData.primaryContactId?.firstName}</p>
-const pTemplate2 = (rowData, { rowIndex }) => <p >{rowData.name}</p>
-const dropdownArrayTemplate3 = (rowData, { rowIndex }) => <p >{rowData.stage}</p>
-const p_numberTemplate4 = (rowData, { rowIndex }) => <p >{rowData.probability}</p>
-const p_numberTemplate5 = (rowData, { rowIndex }) => <p >{rowData.amount}</p>
-const p_calendarTemplate6 = (rowData, { rowIndex }) => <p >{moment(rowData.expectedCloseDate).fromNow()}</p>
-const pTemplate7 = (rowData, { rowIndex }) => <p >{rowData.leadSource}</p>
-const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.closedDate).fromNow()}</p>
-    const editTemplate = (rowData, { rowIndex }) => <Button onClick={() => onEditRow(rowData, rowIndex)} icon={`pi ${rowData.isEdit ? "pi-check" : "pi-pencil"}`} className={`p-button-rounded p-button-text ${rowData.isEdit ? "p-button-success" : "p-button-warning"}`} />;
-    const deleteTemplate = (rowData, { rowIndex }) => <Button onClick={() => onRowDelete(rowData._id)} icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" />;
-    
-      const checkboxTemplate = (rowData) => (
+  const dropdownTemplate0 = (rowData, { rowIndex }) => (
+    <p>{rowData.accountId?.name}</p>
+  );
+  const dropdownTemplate1 = (rowData, { rowIndex }) => (
+    <p>{rowData.primaryContactId?.firstName}</p>
+  );
+  const pTemplate2 = (rowData, { rowIndex }) => <p>{rowData.name}</p>;
+  const dropdownArrayTemplate3 = (rowData, { rowIndex }) => (
+    <p>{rowData.stage}</p>
+  );
+  const p_numberTemplate4 = (rowData, { rowIndex }) => (
+    <p>{rowData.probability}</p>
+  );
+  const p_numberTemplate5 = (rowData, { rowIndex }) => <p>{rowData.amount}</p>;
+  const p_calendarTemplate6 = (rowData, { rowIndex }) => (
+    <p>{moment(rowData.expectedCloseDate).fromNow()}</p>
+  );
+  const pTemplate7 = (rowData, { rowIndex }) => <p>{rowData.leadSource}</p>;
+  const p_calendarTemplate9 = (rowData, { rowIndex }) => (
+    <p>{moment(rowData.closedDate).fromNow()}</p>
+  );
+  const editTemplate = (rowData, { rowIndex }) => (
+    <Button
+      onClick={() => onEditRow(rowData, rowIndex)}
+      icon={`pi ${rowData.isEdit ? "pi-check" : "pi-pencil"}`}
+      className={`p-button-rounded p-button-text ${rowData.isEdit ? "p-button-success" : "p-button-warning"}`}
+    />
+  );
+  const deleteTemplate = (rowData, { rowIndex }) => (
+    <Button
+      onClick={() => onRowDelete(rowData._id)}
+      icon="pi pi-times"
+      className="p-button-rounded p-button-danger p-button-text"
+    />
+  );
+
+  const checkboxTemplate = (rowData) => (
     <Checkbox
       checked={selectedItems.some((item) => item._id === rowData._id)}
       onChange={(e) => {
@@ -84,7 +128,7 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
       console.error("Failed to delete selected records", error);
     }
   };
-    
+
   const handleMessage = () => {
     setShowDialog(true); // Open the dialog
   };
@@ -93,10 +137,10 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
     setShowDialog(false); // Close the dialog
   };
 
-    return (
-        <>
-        <DataTable 
-           value={items}
+  return (
+    <>
+      <DataTable
+        value={items}
         ref={dt}
         removableSort
         onRowClick={onRowClick}
@@ -114,26 +158,93 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
         selection={selectedItems}
         onSelectionChange={(e) => setSelectedItems(e.value)}
         onCreateResult={onCreateResult}
-        >
-                <Column
+      >
+        <Column
           selectionMode="multiple"
           headerStyle={{ width: "3rem" }}
           body={checkboxTemplate}
         />
-<Column field="accountId" header="Account" body={dropdownTemplate0} filter={selectedFilterFields.includes("accountId")} hidden={selectedHideFields?.includes("accountId")}  style={{ minWidth: "8rem" }} />
-<Column field="primaryContactId" header="Primary Contact" body={dropdownTemplate1} filter={selectedFilterFields.includes("primaryContactId")} hidden={selectedHideFields?.includes("primaryContactId")}  style={{ minWidth: "8rem" }} />
-<Column field="name" header="Opportunity Name" body={pTemplate2} filter={selectedFilterFields.includes("name")} hidden={selectedHideFields?.includes("name")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="stage" header="Stage" body={dropdownArrayTemplate3} filter={selectedFilterFields.includes("stage")} hidden={selectedHideFields?.includes("stage")}  style={{ minWidth: "8rem" }} />
-<Column field="probability" header="Probability (%)" body={p_numberTemplate4} filter={selectedFilterFields.includes("probability")} hidden={selectedHideFields?.includes("probability")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="amount" header="Amount" body={p_numberTemplate5} filter={selectedFilterFields.includes("amount")} hidden={selectedHideFields?.includes("amount")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="expectedCloseDate" header="Expected Close Date" body={p_calendarTemplate6} filter={selectedFilterFields.includes("expectedCloseDate")} hidden={selectedHideFields?.includes("expectedCloseDate")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="leadSource" header="Lead Source" body={pTemplate7} filter={selectedFilterFields.includes("leadSource")} hidden={selectedHideFields?.includes("leadSource")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="closedDate" header="Closed Date" body={p_calendarTemplate9} filter={selectedFilterFields.includes("closedDate")} hidden={selectedHideFields?.includes("closedDate")}  sortable style={{ minWidth: "8rem" }} />
-            <Column header="Edit" body={editTemplate} />
-            <Column header="Delete" body={deleteTemplate} />
-            
-        </DataTable>
-
+        <Column
+          field="accountId"
+          header="Account"
+          body={dropdownTemplate0}
+          filter={selectedFilterFields.includes("accountId")}
+          hidden={selectedHideFields?.includes("accountId")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="primaryContactId"
+          header="Primary Contact"
+          body={dropdownTemplate1}
+          filter={selectedFilterFields.includes("primaryContactId")}
+          hidden={selectedHideFields?.includes("primaryContactId")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="name"
+          header="Opportunity Name"
+          body={pTemplate2}
+          filter={selectedFilterFields.includes("name")}
+          hidden={selectedHideFields?.includes("name")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="stage"
+          header="Stage"
+          body={dropdownArrayTemplate3}
+          filter={selectedFilterFields.includes("stage")}
+          hidden={selectedHideFields?.includes("stage")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="probability"
+          header="Probability (%)"
+          body={p_numberTemplate4}
+          filter={selectedFilterFields.includes("probability")}
+          hidden={selectedHideFields?.includes("probability")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="amount"
+          header="Amount"
+          body={p_numberTemplate5}
+          filter={selectedFilterFields.includes("amount")}
+          hidden={selectedHideFields?.includes("amount")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="expectedCloseDate"
+          header="Expected Close Date"
+          body={p_calendarTemplate6}
+          filter={selectedFilterFields.includes("expectedCloseDate")}
+          hidden={selectedHideFields?.includes("expectedCloseDate")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="leadSource"
+          header="Lead Source"
+          body={pTemplate7}
+          filter={selectedFilterFields.includes("leadSource")}
+          hidden={selectedHideFields?.includes("leadSource")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="closedDate"
+          header="Closed Date"
+          body={p_calendarTemplate9}
+          filter={selectedFilterFields.includes("closedDate")}
+          hidden={selectedHideFields?.includes("closedDate")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column header="Edit" body={editTemplate} />
+        <Column header="Delete" body={deleteTemplate} />
+      </DataTable>
 
       {selectedItems.length > 0 ? (
         <div
@@ -309,20 +420,28 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
         </div>
       ) : null}
 
-
-        <Dialog header="Upload Opportunities Data" visible={showUpload} onHide={() => setShowUpload(false)}>
-        <UploadService 
-          user={user} 
-          serviceName="opportunities"            
+      <Dialog
+        header="Upload Opportunities Data"
+        visible={showUpload}
+        onHide={() => setShowUpload(false)}
+      >
+        <UploadService
+          user={user}
+          serviceName="opportunities"
           onUploadComplete={() => {
             setShowUpload(false); // Close the dialog after upload
-          }}/>
+          }}
+        />
       </Dialog>
 
-      <Dialog header="Search Opportunities" visible={searchDialog} onHide={() => setSearchDialog(false)}>
-      Search
-    </Dialog>
-    <Dialog
+      <Dialog
+        header="Search Opportunities"
+        visible={searchDialog}
+        onHide={() => setSearchDialog(false)}
+      >
+        Search
+      </Dialog>
+      <Dialog
         header="Filter Users"
         visible={showFilter}
         onHide={() => setShowFilter(false)}
@@ -347,7 +466,7 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
             console.log(selectedFilterFields);
             onClickSaveFilteredfields(selectedFilterFields);
             setSelectedFilterFields(selectedFilterFields);
-            setShowFilter(false)
+            setShowFilter(false);
           }}
         ></Button>
       </Dialog>
@@ -377,12 +496,12 @@ const p_calendarTemplate9 = (rowData, { rowIndex }) => <p >{moment(rowData.close
             console.log(selectedHideFields);
             onClickSaveHiddenfields(selectedHideFields);
             setSelectedHideFields(selectedHideFields);
-            setShowColumns(false)
+            setShowColumns(false);
           }}
         ></Button>
       </Dialog>
-        </>
-    );
+    </>
+  );
 };
 
 export default OpportunitiesDataTable;

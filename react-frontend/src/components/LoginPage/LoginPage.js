@@ -147,7 +147,7 @@ const LoginPage = (props) => {
     }
     if (password.length < 6) {
       setPasswordError(
-        "Please enter a valid password. Must be at least 6 characters"
+        "Please enter a valid password. Must be at least 6 characters",
       );
       isValid = false;
     }
@@ -274,7 +274,7 @@ const LoginPage = (props) => {
                   onChange={(e) => setEmail(e.target.value)}
                   className={classNames(
                     emailError ? "p-invalid" : "",
-                    "w-full"
+                    "w-full",
                   )}
                   onKeyDown={onEnter}
                 />
@@ -297,7 +297,7 @@ const LoginPage = (props) => {
                     onChange={(e) => setPassword(e.target.value)}
                     className={classNames(
                       passwordError ? "p-invalid" : "",
-                      "w-full"
+                      "w-full",
                     )}
                     onKeyDown={onEnter}
                   />
@@ -362,7 +362,7 @@ const LoginPage = (props) => {
           <div className="w-full px-3 mx-3 card md:px-7">
             <div className="my-4 text-4xl font-semibold text-center text-primary">
               {/* Code Bridge Image */}
-              AIMS
+              CRM
             </div>
             <div className="mt-6 text-center">
               <h2 className="mb-4 text-2xl font-semibold">

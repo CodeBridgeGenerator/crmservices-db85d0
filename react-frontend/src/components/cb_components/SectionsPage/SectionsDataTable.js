@@ -220,9 +220,7 @@ const SectionsDataTable = ({
   };
 
   useEffect(() => {
-    const fetchFieldPermissions = async () => {
-      
-    };
+    const fetchFieldPermissions = async () => {};
 
     fetchFieldPermissions();
     if (selectedUser) {

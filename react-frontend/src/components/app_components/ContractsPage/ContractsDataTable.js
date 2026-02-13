@@ -1,12 +1,12 @@
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
-import React, { useState, useRef, useEffect} from 'react';
-import _ from 'lodash';
-import { Button } from 'primereact/button';
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import React, { useState, useRef, useEffect } from "react";
+import _ from "lodash";
+import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import UploadService from "../../../services/UploadService";
-import { InputText } from 'primereact/inputtext';
+import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
 import { MultiSelect } from "primereact/multiselect";
 import DownloadCSV from "../../../utils/DownloadCSV";
@@ -18,31 +18,77 @@ import DuplicateIcon from "../../../assets/media/Duplicate.png";
 import DeleteIcon from "../../../assets/media/Trash.png";
 import { Checkbox } from "primereact/checkbox";
 
-const ContractsDataTable = ({ items, fields, onEditRow, onRowDelete, onRowClick, searchDialog, setSearchDialog,   showUpload, setShowUpload,
-    showFilter, setShowFilter,
-    showColumns, setShowColumns, onClickSaveFilteredfields ,
-    selectedFilterFields, setSelectedFilterFields,
-    selectedHideFields, setSelectedHideFields, onClickSaveHiddenfields, loading, user,   selectedDelete,
-  setSelectedDelete, onCreateResult}) => {
-    const dt = useRef(null);
-    const urlParams = useParams();
-    const [globalFilter, setGlobalFilter] = useState('');
+const ContractsDataTable = ({
+  items,
+  fields,
+  onEditRow,
+  onRowDelete,
+  onRowClick,
+  searchDialog,
+  setSearchDialog,
+  showUpload,
+  setShowUpload,
+  showFilter,
+  setShowFilter,
+  showColumns,
+  setShowColumns,
+  onClickSaveFilteredfields,
+  selectedFilterFields,
+  setSelectedFilterFields,
+  selectedHideFields,
+  setSelectedHideFields,
+  onClickSaveHiddenfields,
+  loading,
+  user,
+  selectedDelete,
+  setSelectedDelete,
+  onCreateResult,
+}) => {
+  const dt = useRef(null);
+  const urlParams = useParams();
+  const [globalFilter, setGlobalFilter] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [data, setData] = useState([]);
 
-const dropdownTemplate0 = (rowData, { rowIndex }) => <p >{rowData.opportunityId?.name}</p>
-const dropdownTemplate1 = (rowData, { rowIndex }) => <p >{rowData.accountId?.name}</p>
-const pTemplate2 = (rowData, { rowIndex }) => <p >{rowData.contractNumber}</p>
-const dropdownArrayTemplate3 = (rowData, { rowIndex }) => <p >{rowData.status}</p>
-const p_calendarTemplate4 = (rowData, { rowIndex }) => <p >{moment(rowData.startDate).fromNow()}</p>
-const p_calendarTemplate5 = (rowData, { rowIndex }) => <p >{moment(rowData.endDate).fromNow()}</p>
-const p_numberTemplate6 = (rowData, { rowIndex }) => <p >{rowData.contractValue}</p>
-const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signedDate).fromNow()}</p>
-    const editTemplate = (rowData, { rowIndex }) => <Button onClick={() => onEditRow(rowData, rowIndex)} icon={`pi ${rowData.isEdit ? "pi-check" : "pi-pencil"}`} className={`p-button-rounded p-button-text ${rowData.isEdit ? "p-button-success" : "p-button-warning"}`} />;
-    const deleteTemplate = (rowData, { rowIndex }) => <Button onClick={() => onRowDelete(rowData._id)} icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" />;
-    
-      const checkboxTemplate = (rowData) => (
+  const dropdownTemplate0 = (rowData, { rowIndex }) => (
+    <p>{rowData.opportunityId?.name}</p>
+  );
+  const dropdownTemplate1 = (rowData, { rowIndex }) => (
+    <p>{rowData.accountId?.name}</p>
+  );
+  const pTemplate2 = (rowData, { rowIndex }) => <p>{rowData.contractNumber}</p>;
+  const dropdownArrayTemplate3 = (rowData, { rowIndex }) => (
+    <p>{rowData.status}</p>
+  );
+  const p_calendarTemplate4 = (rowData, { rowIndex }) => (
+    <p>{moment(rowData.startDate).fromNow()}</p>
+  );
+  const p_calendarTemplate5 = (rowData, { rowIndex }) => (
+    <p>{moment(rowData.endDate).fromNow()}</p>
+  );
+  const p_numberTemplate6 = (rowData, { rowIndex }) => (
+    <p>{rowData.contractValue}</p>
+  );
+  const p_calendarTemplate7 = (rowData, { rowIndex }) => (
+    <p>{moment(rowData.signedDate).fromNow()}</p>
+  );
+  const editTemplate = (rowData, { rowIndex }) => (
+    <Button
+      onClick={() => onEditRow(rowData, rowIndex)}
+      icon={`pi ${rowData.isEdit ? "pi-check" : "pi-pencil"}`}
+      className={`p-button-rounded p-button-text ${rowData.isEdit ? "p-button-success" : "p-button-warning"}`}
+    />
+  );
+  const deleteTemplate = (rowData, { rowIndex }) => (
+    <Button
+      onClick={() => onRowDelete(rowData._id)}
+      icon="pi pi-times"
+      className="p-button-rounded p-button-danger p-button-text"
+    />
+  );
+
+  const checkboxTemplate = (rowData) => (
     <Checkbox
       checked={selectedItems.some((item) => item._id === rowData._id)}
       onChange={(e) => {
@@ -83,7 +129,7 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
       console.error("Failed to delete selected records", error);
     }
   };
-    
+
   const handleMessage = () => {
     setShowDialog(true); // Open the dialog
   };
@@ -92,10 +138,10 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
     setShowDialog(false); // Close the dialog
   };
 
-    return (
-        <>
-        <DataTable 
-           value={items}
+  return (
+    <>
+      <DataTable
+        value={items}
         ref={dt}
         removableSort
         onRowClick={onRowClick}
@@ -113,25 +159,84 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
         selection={selectedItems}
         onSelectionChange={(e) => setSelectedItems(e.value)}
         onCreateResult={onCreateResult}
-        >
-                <Column
+      >
+        <Column
           selectionMode="multiple"
           headerStyle={{ width: "3rem" }}
           body={checkboxTemplate}
         />
-<Column field="opportunityId" header="Opportunity" body={dropdownTemplate0} filter={selectedFilterFields.includes("opportunityId")} hidden={selectedHideFields?.includes("opportunityId")}  style={{ minWidth: "8rem" }} />
-<Column field="accountId" header="Account" body={dropdownTemplate1} filter={selectedFilterFields.includes("accountId")} hidden={selectedHideFields?.includes("accountId")}  style={{ minWidth: "8rem" }} />
-<Column field="contractNumber" header="Contract Number" body={pTemplate2} filter={selectedFilterFields.includes("contractNumber")} hidden={selectedHideFields?.includes("contractNumber")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="status" header="Status" body={dropdownArrayTemplate3} filter={selectedFilterFields.includes("status")} hidden={selectedHideFields?.includes("status")}  style={{ minWidth: "8rem" }} />
-<Column field="startDate" header="Start Date" body={p_calendarTemplate4} filter={selectedFilterFields.includes("startDate")} hidden={selectedHideFields?.includes("startDate")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="endDate" header="End Date" body={p_calendarTemplate5} filter={selectedFilterFields.includes("endDate")} hidden={selectedHideFields?.includes("endDate")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="contractValue" header="Contract Value" body={p_numberTemplate6} filter={selectedFilterFields.includes("contractValue")} hidden={selectedHideFields?.includes("contractValue")}  sortable style={{ minWidth: "8rem" }} />
-<Column field="signedDate" header="Signed Date" body={p_calendarTemplate7} filter={selectedFilterFields.includes("signedDate")} hidden={selectedHideFields?.includes("signedDate")}  sortable style={{ minWidth: "8rem" }} />
-            <Column header="Edit" body={editTemplate} />
-            <Column header="Delete" body={deleteTemplate} />
-            
-        </DataTable>
-
+        <Column
+          field="opportunityId"
+          header="Opportunity"
+          body={dropdownTemplate0}
+          filter={selectedFilterFields.includes("opportunityId")}
+          hidden={selectedHideFields?.includes("opportunityId")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="accountId"
+          header="Account"
+          body={dropdownTemplate1}
+          filter={selectedFilterFields.includes("accountId")}
+          hidden={selectedHideFields?.includes("accountId")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="contractNumber"
+          header="Contract Number"
+          body={pTemplate2}
+          filter={selectedFilterFields.includes("contractNumber")}
+          hidden={selectedHideFields?.includes("contractNumber")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="status"
+          header="Status"
+          body={dropdownArrayTemplate3}
+          filter={selectedFilterFields.includes("status")}
+          hidden={selectedHideFields?.includes("status")}
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="startDate"
+          header="Start Date"
+          body={p_calendarTemplate4}
+          filter={selectedFilterFields.includes("startDate")}
+          hidden={selectedHideFields?.includes("startDate")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="endDate"
+          header="End Date"
+          body={p_calendarTemplate5}
+          filter={selectedFilterFields.includes("endDate")}
+          hidden={selectedHideFields?.includes("endDate")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="contractValue"
+          header="Contract Value"
+          body={p_numberTemplate6}
+          filter={selectedFilterFields.includes("contractValue")}
+          hidden={selectedHideFields?.includes("contractValue")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column
+          field="signedDate"
+          header="Signed Date"
+          body={p_calendarTemplate7}
+          filter={selectedFilterFields.includes("signedDate")}
+          hidden={selectedHideFields?.includes("signedDate")}
+          sortable
+          style={{ minWidth: "8rem" }}
+        />
+        <Column header="Edit" body={editTemplate} />
+        <Column header="Delete" body={deleteTemplate} />
+      </DataTable>
 
       {selectedItems.length > 0 ? (
         <div
@@ -307,20 +412,28 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
         </div>
       ) : null}
 
-
-        <Dialog header="Upload Contracts Data" visible={showUpload} onHide={() => setShowUpload(false)}>
-        <UploadService 
-          user={user} 
-          serviceName="contracts"            
+      <Dialog
+        header="Upload Contracts Data"
+        visible={showUpload}
+        onHide={() => setShowUpload(false)}
+      >
+        <UploadService
+          user={user}
+          serviceName="contracts"
           onUploadComplete={() => {
             setShowUpload(false); // Close the dialog after upload
-          }}/>
+          }}
+        />
       </Dialog>
 
-      <Dialog header="Search Contracts" visible={searchDialog} onHide={() => setSearchDialog(false)}>
-      Search
-    </Dialog>
-    <Dialog
+      <Dialog
+        header="Search Contracts"
+        visible={searchDialog}
+        onHide={() => setSearchDialog(false)}
+      >
+        Search
+      </Dialog>
+      <Dialog
         header="Filter Users"
         visible={showFilter}
         onHide={() => setShowFilter(false)}
@@ -345,7 +458,7 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
             console.log(selectedFilterFields);
             onClickSaveFilteredfields(selectedFilterFields);
             setSelectedFilterFields(selectedFilterFields);
-            setShowFilter(false)
+            setShowFilter(false);
           }}
         ></Button>
       </Dialog>
@@ -375,12 +488,12 @@ const p_calendarTemplate7 = (rowData, { rowIndex }) => <p >{moment(rowData.signe
             console.log(selectedHideFields);
             onClickSaveHiddenfields(selectedHideFields);
             setSelectedHideFields(selectedHideFields);
-            setShowColumns(false)
+            setShowColumns(false);
           }}
         ></Button>
       </Dialog>
-        </>
-    );
+    </>
+  );
 };
 
 export default ContractsDataTable;

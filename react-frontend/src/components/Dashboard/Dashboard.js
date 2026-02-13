@@ -99,7 +99,7 @@ const Dashboard = (props) => {
         <div className="mb-2 flex justify-content-between align-items-center">
           <div className="mb-4 flex justify-content-between align-items-center">
             <span className="text-900 font-medium text-3xl m-0.5">
-              AIMS Dashboard
+              CRM Dashboard
             </span>
           </div>
           {/* <EditDashComp isEdit={isEdit} setIsEdit={setIsEdit} /> */}

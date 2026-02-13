@@ -1,11 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Provider, connect } from "react-redux"; // Import connect
+import { Provider, connect } from "react-redux";
 import MyRouter from "./MyRouter/MyRouter";
 import store from "./utils/store";
 import { AppConfigStatic } from "./AppConfigStatic";
 import AppTopbar from "./components/Layouts/AppTopbar";
-import AppFooter from "./components/Layouts/AppFooter";
 import MainLayout from "./components/Layouts/MainLayout";
 import LoadingWrapper from "./MyRouter/wrappers/LoadingWrapper";
 import ToastWrapper from "./MyRouter/wrappers/ToastWrapper";
@@ -19,7 +18,7 @@ import "prismjs/themes/prism-coy.css";
 import "./assets/layout/layout.scss";
 import "./assets/mainTheme/mainTheme.css";
 import "./css/customStyles.css";
-import AppSideBar from "./components/Layouts/appSideBar/AppSideBar";
+
 import ProjectSideBarLayout from "./components/Layouts/ProjectSideBarLayout";
 import { excludeLocations } from "./utils";
 import { classNames } from "primereact/utils";
@@ -30,6 +29,11 @@ const App = ({ isLoggedIn }) => {
   const regex = /^\/reseta\/[a-f0-9]{24}$/;
   const showSideMenuButton = true;
 
+  // ✅ DEMO LANDING ROUTES (no sidebar/topbar)
+  // Adjust these if your demo homepage route is different.
+  const demoLandingRoutes = ["/", "/home"];
+  const isDemoLanding = demoLandingRoutes.includes(location.pathname);
+
   const isExcluded = excludeLocations.some((exclude) => {
     if (typeof exclude === "string") {
       return exclude === location.pathname;
@@ -38,30 +42,42 @@ const App = ({ isLoggedIn }) => {
     }
     return false;
   });
+
   return (
     <Provider store={store}>
-      <AppTopbar showSideMenuButton={showSideMenuButton} />
+      {/* ✅ Hide topbar on demo landing */}
+      {!isDemoLanding && (
+        <AppTopbar showSideMenuButton={showSideMenuButton} />
+      )}
 
       <MainLayout>
-      {!isExcluded && (
-        <div
-          className={classNames("flex min-h-[calc(100vh-5rem)] bg-white", {
-            "mt-20": !isExcluded || !regex.test(location.pathname),
-          })}
-        >
-          <ProjectSideBarLayout />
+        {/* ✅ Demo landing: router only (no sidebar wrapper) */}
+        {isDemoLanding && (
+          <div style={{ overflowX: "auto" }}>
+            <MyRouter isLoggedIn={isLoggedIn} />
+          </div>
+        )}
 
+        {/* ✅ Your existing excluded logic preserved (but only when not demo) */}
+        {!isDemoLanding && !isExcluded && (
+          <div
+            className={classNames("flex min-h-[calc(100vh-5rem)] bg-white", {
+              "mt-20": !isExcluded || !regex.test(location.pathname),
+            })}
+          >
+            <ProjectSideBarLayout />
+            <div className="flex-1 ml-2" style={{ overflowX: "auto" }}>
+              <MyRouter isLoggedIn={isLoggedIn} />
+            </div>
+          </div>
+        )}
+
+        {!isDemoLanding && isExcluded && (
           <div className="flex-1 ml-2" style={{ overflowX: "auto" }}>
             <MyRouter isLoggedIn={isLoggedIn} />
           </div>
-        </div>
-      )}
-      {isExcluded && (
-        <div className="flex-1 ml-2" style={{ overflowX: "auto" }}>
-          <MyRouter isLoggedIn={isLoggedIn} />
-        </div>
-      )}
-    </MainLayout>
+        )}
+      </MainLayout>
 
       <LoadingWrapper />
       <ToastWrapper />

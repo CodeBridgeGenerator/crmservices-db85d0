@@ -565,7 +565,7 @@ const AppTopbar = (props) => {
             }}
           >
             <i className="pi pi-menu" style={{ fontSize: "1.5rem" }}></i>{" "}
-            {label !== "" ? label : "AIMS"}
+            {label !== "" ? label : "CRM"}
           </h3>
         </div>
       </Link>

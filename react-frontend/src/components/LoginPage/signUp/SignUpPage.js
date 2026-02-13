@@ -91,10 +91,8 @@ const SignUpPage = (props) => {
 
   useEffect(() => {
     if (isReadyToSendMail && email) {
-      
-        resendMail();
-        setIsReadyToSendMail(false); // Reset the flag after sending the mail
-      
+      resendMail();
+      setIsReadyToSendMail(false); // Reset the flag after sending the mail
     }
   }, [email, isReadyToSendMail]);
 

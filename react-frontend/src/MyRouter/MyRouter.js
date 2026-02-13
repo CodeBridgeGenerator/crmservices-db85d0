@@ -13,12 +13,16 @@ import DashboardWelcome from "../components/Dashboard/DashboardWelcome";
 import Account from "../components/cb_components/Account/Account";
 import CBRouter from "./CBRouter";
 import AppRouter from "./AppRouter";
+import HomePage from "../components/web_components/HomePage/HomePage";
+import WebRouter from "./WebRouter";
 
 //  ~cb-add-import~
 
 const MyRouter = (props) => {
   return (
     <Routes>
+      <Route path="/home" exact element={<HomePage />} />
+      <Route path="/web/*" exact element={<WebRouter />} />
       <Route
         path="/"
         exact
